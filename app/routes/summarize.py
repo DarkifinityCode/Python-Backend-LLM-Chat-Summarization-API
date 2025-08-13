@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from app.models import SummarizeRequest, SummarizeResponse
+from ..utils.summarizer import summarize_chat  # Changed to relative import
 from app import crud
-from ..utils.summarizer import summarize_chat
 
 router = APIRouter()
 
@@ -13,4 +13,3 @@ async def summarize(request: SummarizeRequest):
 
     summary, keywords, sentiment = summarize_chat(chat["messages"])
     return SummarizeResponse(summary=summary, keywords=keywords, sentiment=sentiment)
-
