@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+pydantic
+motor               # MongoDB async driver (remove if using SQL)
+sqlalchemy          # If using SQL databases
+psycopg2-binary     # PostgreSQL driver (remove if not using Postgres)
+pymysql             # MySQL driver (remove if not using MySQL)
+python-dotenv
+openai              # For LLM summarization (or replace with your LLM SDK)
+requests
