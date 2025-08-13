@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Add project root to Python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from fastapi import FastAPI
 from app.routes import chats, users, summarize
 from app.database import db
@@ -32,3 +38,4 @@ async def health():
         "status": "ok" if db_ok else "degraded",
         "database": "up" if db_ok else "down"
     }
+
