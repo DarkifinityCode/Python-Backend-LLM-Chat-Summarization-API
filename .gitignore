@@ -1,33 +1,26 @@
-# Python
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*.pyo
-*.pyd
-*.so
-*.egg-info/
-.dist/
-.build/
-.venv/
+*$py.class
+
+# Virtual environment
 venv/
-env/
-pip-wheel-metadata/
+ENV/
+.env
+.env.*
 
-# IDE / tooling
+# VSCode settings
 .vscode/
-.idea/
-.mypy_cache/
-.pytest_cache/
-.ruff_cache/
-.coverage
-coverage.xml
 
-# OS junk
+# macOS & Windows system files
 .DS_Store
 Thumbs.db
 
-# Secrets
-.env
-.env.*
-*.key
-*.pem
-*.crt
+# Python packaging
+*.egg-info/
+dist/
+build/
+
+# Cache
+*.log
+.cache/
