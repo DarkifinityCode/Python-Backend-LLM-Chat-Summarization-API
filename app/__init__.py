@@ -1,1 +1,1 @@
-"Makes 'app' a package"
+# Makes utils a Python package
