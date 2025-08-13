@@ -21,6 +21,29 @@ A FastAPI-based backend service for storing, retrieving, and summarizing chat co
 
 ---
 
+## Project Structure
+```
+your-repo/
+├── README.md
+├── requirements.txt
+├── .env.example
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── models.py
+│   ├── database.py
+│   ├── crud.py
+│   ├── routes/
+│   │   ├── chats.py
+│   │   ├── users.py
+│   │   └── summarize.py
+│   └── utils/
+│       ├── summarizer.py
+│       └── filters.py
+```
+
+---
+
 ## Installation
 
 1. **Clone the repository**
@@ -32,8 +55,11 @@ cd your-repo
 2. **Create a virtual environment**
 ```bash
 python -m venv venv
-source venv/bin/activate   # Linux/Mac
-venv\Scripts\activate      # Windows
+# Activate virtual environment
+# Linux / MacOS
+source venv/bin/activate
+# Windows
+venv\Scripts\activate
 ```
 
 3. **Install dependencies**
@@ -42,7 +68,7 @@ pip install -r requirements.txt
 ```
 
 4. **Set environment variables**
-Create a `.env` file in the project root:
+Copy `.env.example` to `.env` and fill in your credentials:
 ```env
 DATABASE_URL=mongodb://localhost:27017/chatdb
 OPENAI_API_KEY=your_openai_api_key
@@ -68,11 +94,28 @@ http://127.0.0.1:8000
 - **GET** `/users/{user_id}/chats` → Paginated chat history
 - **DELETE** `/chats/{conversation_id}` → Delete conversation
 
+Swagger documentation will be available at:
+```
+http://127.0.0.1:8000/docs
+```
+
 ---
 
 ## Deployment
 - Deploy on **Render**, **Railway**, or **Fly.io**
 - Or use Docker for containerized deployment
+
+---
+
+## Development Tips
+- Add `.gitignore` to exclude unnecessary files:
+```
+venv/
+__pycache__/
+.env
+```
+- Use `.env.example` for sharing configuration requirements without exposing secrets.
+- Consider adding a `/health` endpoint for quick service checks.
 
 ---
 
