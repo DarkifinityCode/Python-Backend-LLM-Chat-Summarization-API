@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import asyncio
 
+# Import local modules directly (since flat structure)
 import chats
 import users
 import summarize
@@ -32,3 +33,8 @@ async def health():
         return {"status": "ok", "database": "up"}
     except Exception:
         return {"status": "degraded", "database": "down"}
+
+# Allow running directly without uvicorn CLI
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
