@@ -1,34 +1,26 @@
-from fastapi import FastAPI
-import asyncio
+import os
+from dotenv import load_dotenv
+from motor.motor_asyncio import AsyncIOMotorClient
 
-import chats
-import users
-import summarize
-from database import db
+load_dotenv()
 
-app = FastAPI(
-    title="Chat Summarization and Insights API",
-    description="Store, retrieve, and summarize chat conversations with optional LLM integration.",
-    version="1.0.0",
-)
+# Accept both SRV and standard URLs; default to local Mongo.
+DATABASE_URL = os.getenv("DATABASE_URL", "mongodb://localhost:27017/chatdb")
 
-# Routers
-app.include_router(chats.router, prefix="/chats", tags=["Chats"])
-app.include_router(users.router, prefix="/users", tags=["Users"])
-app.include_router(summarize.router, prefix="/summarize", tags=["Summarization"])
+_client = AsyncIOMotorClient(DATABASE_URL)
 
-@app.get("/", tags=["Root"])
-async def root():
-    return {"message": "Welcome to the Chat Summarization and Insights API"}
+# Choose DB name:
+# - If SRV string without explicit DB, default to "chatdb"
+# - If standard URL includes /dbname, Mongo selects it automatically
+def _get_db_name():
+    if "/" in DATABASE_URL.rsplit("@", 1)[-1]:
+        # ...mongodb.net/<maybe-db>?...
+        tail = DATABASE_URL.rsplit("/", 1)[-1]
+        name = tail.split("?")[0]
+        return name or "chatdb"
+    # simple/local style (mongodb://host:port/chatdb)
+    tail = DATABASE_URL.rsplit("/", 1)[-1]
+    return tail or "chatdb"
 
-@app.get("/health", tags=["Health"])
-async def health():
-    """
-    Health check for API and database connectivity.
-    Returns "ok" if DB ping works, "degraded" otherwise.
-    """
-    try:
-        await db.command("ping")
-        return {"status": "ok", "database": "up"}
-    except Exception:
-        return {"status": "degraded", "database": "down"}
+_db_name = _get_db_name()
+db = _client[_db_name]
